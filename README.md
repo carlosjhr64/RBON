@@ -54,8 +54,8 @@ unsafe = eval dump
 CONFIG == unsafe #=> true
 
 # But don't eval an untrusted RBON dump, load it in RBON instead:
-safe = RBON.load dump
-CONFIG == safe # TODO
+safe = RBON.new.load dump
+CONFIG == safe #=> true
 ```
 
 ## LICENSE:
