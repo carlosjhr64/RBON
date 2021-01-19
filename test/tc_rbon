@@ -1,0 +1,166 @@
+#! ruby
+require 'stringio'
+require 'test/unit'
+require 'rbon'
+
+A = nil
+B = 0
+C = 1.0
+D = "Two"
+E = "three\nThree\nTHREE"
+F = :Four
+G = []
+H = {}
+
+I = [F,G,H]
+J = [H,F,G]
+K = [G,H,F]
+
+L = {
+  a: A,
+  b: B,
+  c: C,
+  d: D,
+  e: E,
+  f: F,
+  g: G,
+  h: H,
+}
+
+M = {
+  l: L,
+  i: I,
+  f: F,
+}
+
+N = [ L, M, F]
+
+class TestRBON < Test::Unit::TestCase
+  def test_rbon
+    rbon = RBON.new
+    assert_equal "nil\n", rbon.dump(A)
+    assert_equal "0\n", rbon.dump(B)
+    assert_equal "1.0\n", rbon.dump(C)
+    assert_equal %Q("Two"\n), rbon.dump(D)
+
+    assert_equal <<~THIS, rbon.dump(E)
+      "three\\n" +
+      "Three\\n" +
+      "THREE"
+    THIS
+
+    assert_equal ":Four\n", rbon.dump(F)
+
+    assert_equal "[]\n", rbon.dump(G)
+    assert_equal "{}\n", rbon.dump(H)
+
+    assert_equal <<~THIS, rbon.dump(I)
+      [
+        :Four,
+        [],
+        {}
+      ]
+    THIS
+
+    assert_equal <<~THIS, rbon.dump(J)
+      [
+        {},
+        :Four,
+        []
+      ]
+    THIS
+
+    assert_equal <<~THIS, rbon.dump(K)
+      [
+        [],
+        {},
+        :Four
+      ]
+    THIS
+
+    assert_equal <<~THIS, rbon.dump(L)
+      {
+        a: nil,
+        b: 0,
+        c: 1.0,
+        d: "Two",
+        e: "three\\n" +
+        "Three\\n" +
+        "THREE",
+        f: :Four,
+        g: [],
+        h: {}
+      }
+    THIS
+
+    assert_equal <<~THIS, rbon.dump(M)
+      {
+        l: {
+          a: nil,
+          b: 0,
+          c: 1.0,
+          d: "Two",
+          e: "three\\n" +
+          "Three\\n" +
+          "THREE",
+          f: :Four,
+          g: [],
+          h: {}
+        },
+        i: [
+          :Four,
+          [],
+          {}
+        ],
+        f: :Four
+      }
+    THIS
+
+    assert_equal <<~THIS, rbon.dump(N)
+      [
+        {
+          a: nil,
+          b: 0,
+          c: 1.0,
+          d: "Two",
+          e: "three\\n" +
+          "Three\\n" +
+          "THREE",
+          f: :Four,
+          g: [],
+          h: {}
+        },
+        {
+          l: {
+            a: nil,
+            b: 0,
+            c: 1.0,
+            d: "Two",
+            e: "three\\n" +
+            "Three\\n" +
+            "THREE",
+            f: :Four,
+            g: [],
+            h: {}
+          },
+          i: [
+            :Four,
+            [],
+            {}
+          ],
+          f: :Four
+        },
+        :Four
+      ]
+    THIS
+  end
+
+  def test_its_ruby
+    config = nil
+    assert_nothing_raised do
+      rbon = RBON.new
+      config = eval rbon.dump(N)
+    end
+    assert_equal :Four, config[1][:l][:f]
+  end
+end
