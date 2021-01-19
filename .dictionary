@@ -5,6 +5,7 @@ CloseArray
 CloseHash
 CONFIG
 configration
+DumpError
 eval
 FalseClass
 github
@@ -26,6 +27,7 @@ sublicense
 sym
 TODO
 TrueClass
+TypeError
 unshift
 untrusted
 wut
