@@ -19,11 +19,14 @@ class RBON
 
   class Bug < Exception
   end
-  class ParseError < StandardError
-  end
   class CloseArray < Exception
   end
   class CloseHash < Exception
+  end
+
+  class ParseError < StandardError
+  end
+  class DumpError < StandardError
   end
 
   def initialize(newline:$/, tab:'  ')
@@ -107,7 +110,7 @@ class RBON
     when IO
       @io = @io.readlines.map(&:strip)
     else
-      raise "RBON#load: Need IO or String, got #{@io.class}."
+      raise TypeError, "RBON#load: Need IO or String, got #{@io.class}."
     end
   end
 
@@ -120,7 +123,7 @@ class RBON
     when Symbol, String, Integer, Float, NilClass, TrueClass, FalseClass
       item(object, indent)
     else
-      raise "Unsupported class #{object.class}: #{object.inspect}"
+      raise DumpError, "Unsupported class #{object.class}: #{object.inspect}"
     end
   end
 
@@ -163,7 +166,7 @@ class RBON
   end
 
   def key_object(key, object, indent)
-    raise "Bad Key #{key.class}: #{key.inspect}" unless key.is_a?(Symbol) and key.match?('^\w+[?!]?$')
+    raise DumpError, "Bad Key #{key.class}: #{key.inspect}" unless key.is_a?(Symbol) and key.match?('^\w+[?!]?$')
     @io.print "#{key}: "
     traverse(object, indent)
   end
