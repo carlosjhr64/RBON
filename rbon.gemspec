@@ -31,6 +31,8 @@ SUMMARY
   s.files = %w(
 README.md
 lib/rbon.rb
+lib/rbon/dump.rb
+lib/rbon/load.rb
   )
 
   s.requirements << 'ruby: ruby 3.0.0p0 (2020-12-25 revision 95aff21468) [x86_64-linux]'
