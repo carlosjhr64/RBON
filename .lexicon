@@ -10,11 +10,12 @@ CLOSE_ARRAY
 CloseHash
 CLOSE_HASH
 dump
-DumpError
+Dump
 each
 empty
 EMPTY_ARRAY
 EMPTY_HASH
+Error
 Exception
 FalseClass
 Float
@@ -39,6 +40,7 @@ key_object
 line
 lines
 load
+Load
 map
 match
 new
@@ -47,7 +49,6 @@ NilClass
 object
 OPEN_ARRAY
 OPEN_HASH
-ParseError
 pretty_generate
 print
 private
@@ -57,6 +58,7 @@ RBON
 readlines
 require
 respond_to
+Ruby30
 shift
 split
 StandardError

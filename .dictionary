@@ -3,9 +3,7 @@ carlosjhr
 CarlosJHR
 CloseArray
 CloseHash
-CONFIG
 configration
-DumpError
 eval
 FalseClass
 github
@@ -15,7 +13,6 @@ JSON
 MERCHANTABILITY
 NilClass
 NONINFRINGEMENT
-ParseError
 rbon
 RBON
 readlines

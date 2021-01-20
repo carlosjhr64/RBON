@@ -35,9 +35,9 @@ M = {
 
 N = [ L, M, F]
 
-class TestRBON < Test::Unit::TestCase
-  def test_rbon
-    rbon = RBON.new
+class TestDump < Test::Unit::TestCase
+  def test_dump
+    rbon = RBON::Dump.new
     assert_equal "nil\n", rbon.dump(A)
     assert_equal "0\n", rbon.dump(B)
     assert_equal "1.0\n", rbon.dump(C)
@@ -158,7 +158,7 @@ class TestRBON < Test::Unit::TestCase
   def test_its_ruby
     config = nil
     assert_nothing_raised do
-      rbon = RBON.new
+      rbon = RBON::Dump.new
       config = eval rbon.dump(N)
     end
     assert_equal :Four, config[1][:l][:f]

@@ -1,6 +1,6 @@
 # RBON
 
-* [VERSION 0.0.210119](https://github.com/carlosjhr64/rbon/releases)
+* [VERSION 0.0.210120](https://github.com/carlosjhr64/rbon/releases)
 * [github](https://www.github.com/carlosjhr64/rbon)
 * [rubygems](https://rubygems.org/gems/rbon)
 
@@ -27,7 +27,7 @@ and
 ```ruby
 require 'rbon'
 
-CONFIG = {
+ITEMS = {
   author: "CarlosJHR64",
   year: 2021,
   Key_List: [
@@ -37,25 +37,33 @@ CONFIG = {
   ],
 }
 
-# RBON.new(String newline:$/, String tab:'  ')
-rbon = RBON.new
+# RBON::Dump.new(String newline:$/, String tab:'  ')
+dumper = RBON::Dump.new
 
 # Key   = (Symbol=~/^\w+[?!]?$/)
 # Item  = (Key | String | Integer | Float | nil | bool)
 # Items = (Item | Array[Items] | Hash[Key, Items])
-# RBON#dump(Items item, IO io: StringIO.new)
-dump = rbon.dump CONFIG
+# RBON#dump(Items item, IO io: StringIO.new) => String?
+dump = dumper.dump ITEMS
 
 dump.class #=> String
 dump       #~> ^\{\s*author: "CarlosJHR64"
 
 # The dump is just a very restricted strict ruby code for Items:
 unsafe = eval dump
-CONFIG == unsafe #=> true
+ITEMS == unsafe #=> true
 
 # But don't eval an untrusted RBON dump, load it in RBON instead:
-safe = RBON.new.load dump
-CONFIG == safe #=> true
+# RBON::Load.new
+loader = RBON::Load.new
+
+# RBON::Load#load((IO | String) io) => Items
+safe = loader.load dump
+ITEMS == safe #=> true
+
+# For simple Items<=>String conversion, just use:
+dump = RBON.dump ITEMS
+ITEMS == RBON.load(dump) #=> true
 ```
 
 ## LICENSE:
