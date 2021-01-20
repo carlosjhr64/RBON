@@ -1,0 +1,43 @@
+#! ruby
+require 'stringio'
+require 'test/unit'
+
+require 'rbon'
+require './test/data.rb'
+
+class TestLoad < Test::Unit::TestCase
+  def test_load
+    assert_equal A, RBON.load(RBON.dump(A))
+    assert_equal B, RBON.load(RBON.dump(B))
+    assert_equal C, RBON.load(RBON.dump(C))
+    assert_equal D, RBON.load(RBON.dump(D))
+
+    string = "Simple String"
+    assert_equal string, RBON.load(RBON.dump(string))
+
+    string = "Un-chomped string\n"
+    assert_equal string, RBON.load(RBON.dump(string))
+
+    string = "Quoted \"String\""
+    assert_equal string, RBON.load(RBON.dump(string))
+
+    # The dumper breaks mutilines up, but
+    # the loader should still be able to do the following:
+    assert_equal <<~THIS, RBON.load('"Multi\\nLine\\nString\\n"')
+      Multi
+      Line
+      String
+    THIS
+
+    assert_equal E, RBON.load(RBON.dump(E))
+    assert_equal F, RBON.load(RBON.dump(F))
+    assert_equal G, RBON.load(RBON.dump(G))
+    assert_equal H, RBON.load(RBON.dump(H))
+    assert_equal I, RBON.load(RBON.dump(I))
+    assert_equal J, RBON.load(RBON.dump(J))
+    assert_equal K, RBON.load(RBON.dump(K))
+    assert_equal L, RBON.load(RBON.dump(L))
+    assert_equal M, RBON.load(RBON.dump(M))
+    assert_equal N, RBON.load(RBON.dump(N))
+  end
+end

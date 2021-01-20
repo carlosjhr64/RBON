@@ -9,12 +9,25 @@ class Load
   end
   class CloseHash < Exception
   end
+  class EOL < Exception
+    # End Of List
+  end
 
-  KEY     = /^\w+[?!]?:\s/
-  SYMBOL  = /^:\w+[?!]?,?$/
-  STRING  = /^".*",?$/
+  X = '\\'
+  XX = X+X
+  XQ = X+'"'
+  XN = X+'n'
+
+  NILS = /^nil,?$/
+
   INTEGER = /^\d+,?$/
-  FLOAT   = /^\d+\.\d+$/
+  FLOAT   = /^\d+\.\d+,?$/
+
+  KEY    = /^\w+[?!]?:/
+  SYMBOL = /^:\w+[?!]?,?$/
+
+  STRING  = /^".*",?$/
+  STRINGS = /^".*"\s*[+]$/
 
   EMPTY_ARRAY = /^\[\],?$/
   OPEN_ARRAY  = '['
@@ -25,7 +38,7 @@ class Load
   CLOSE_HASH = /^\},?$/
 
   def initialize
-    @io = nil
+    @opened, @io = 0, nil
   end
 
   def load(io)
@@ -48,7 +61,8 @@ class Load
   end
 
   def build(items=nil)
-    while item = get_item
+    loop do
+      item = get_item
       case items
       when NilClass
         items = item
@@ -67,33 +81,61 @@ class Load
   rescue CloseHash
     raise RBON::Load::Error unless items.is_a? Hash
     return items
+  rescue EOL
+    raise RBON::Load::Error unless @opened == 0
+    return items
+  end
+
+  def chomp(string)
+    string.chomp(',')[1..-2].gsub(XX,X).gsub(XQ,'"').gsub(XN,"\n")
+  end
+
+  def get_strings
+    strings = ''
+    while @io[0].match? STRINGS
+      string = @io.shift
+      strings << chomp(string.sub(/\s*[+]$/,''))
+    end
+    string = @io.shift
+    raise RBON::Load::Error unless string.match? STRING
+    strings << chomp(string)
+    return strings
   end
 
   def get_item
-    line = @io.shift or return nil
+    line = @io.shift or raise EOL
     case line
-    when STRING
-      line.chomp(',')[1..-2]
+    when NILS
+      nil
     when INTEGER
       line.to_i
     when FLOAT
       line.to_f
-    when SYMBOL
-      then line[1..-1].chomp(',').to_sym
     when KEY
-      key, string = line.split(/\s+/,2)
+      key, string = line.split(/:\s*/,2)
       @io.unshift string
       item = get_item
-      [key[0..-2].to_sym, item]
+      [key.to_sym, item]
+    when SYMBOL
+      then line[1..-1].chomp(',').to_sym
+    when STRING
+      chomp(line)
+    when STRINGS
+      @io.unshift line
+      get_strings
     when EMPTY_ARRAY then []
     when OPEN_ARRAY
+      @opened += 1
       build(Array.new)
     when CLOSE_ARRAY
+      @opened -= 1
       raise CloseArray
     when EMPTY_HASH then {}
     when OPEN_HASH
+      @opened += 1
       build(Hash.new)
     when CLOSE_HASH
+      @opened -= 1
       raise CloseHash
     else
       raise RBON::Load::Error, "Unsupported Item: #{line}"
