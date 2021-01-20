@@ -1,0 +1,24 @@
+#! ruby
+require 'test/unit'
+require 'yaml'
+
+require 'rbon'
+
+class TestIO < Test::Unit::TestCase
+  def test_gtk3app_ymls
+    # RBON should support most gtk3app's ymls, except
+    # for those containing Regular Expressions.
+    Dir.glob('/home/fox/.config/gtk3app/**/*.yml').each do |yml|
+      config = YAML.load File.read yml
+      begin
+        dump = RBON.dump(config)
+        assert_equal config, RBON.load(dump)
+      rescue RBON::Dump::Error
+        msg = $!.message
+        $stderr.puts yml
+        $stderr.puts msg
+        assert_equal true, msg.start_with?('Unsupported class Regexp')
+      end
+    end
+  end
+end
