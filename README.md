@@ -37,7 +37,7 @@ ITEMS = {
   ],
 }
 
-# RBON::Dump.new(String newline:$/, String tab:'  ')
+# RBON::Dump.new(String tab:'  ')
 dumper = RBON::Dump.new
 
 # Key   = (Symbol=~/^\w+[?!]?$/)
