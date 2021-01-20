@@ -1,0 +1,43 @@
+#! ruby
+require 'test/unit'
+require 'yaml'
+
+require 'rbon'
+require './test/data.rb'
+
+class TestIO < Test::Unit::TestCase
+  def test_io
+    dumpfile = 'tmp/N.dump'
+
+    dumper = RBON::Dump.new
+    File.open(dumpfile, 'w') do |dump|
+      dumper.dump(N, io:dump)
+    end
+
+    items = nil
+    loader = RBON::Load.new
+    File.open(dumpfile, 'r') do |dump|
+      items = loader.load(dump)
+    end
+
+    assert_equal N, items
+    File.unlink dumpfile
+  end
+
+  def test_gtk3app_ymls
+    # RBON should support most gtk3app's ymls, except
+    # for those containing Regular Expressions.
+    Dir.glob('/home/fox/.config/gtk3app/**/*.yml').each do |yml|
+      config = YAML.load File.read yml
+      begin
+        dump = RBON.dump(config)
+        assert_equal config, RBON.load(dump)
+      rescue RBON::Dump::Error
+        msg = $!.message
+        $stderr.puts yml
+        $stderr.puts msg
+        assert_equal true, msg.start_with?('Unsupported class Regexp')
+      end
+    end
+  end
+end

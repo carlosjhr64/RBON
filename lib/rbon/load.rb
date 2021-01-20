@@ -18,7 +18,9 @@ class Load
   XQ = X+'"'
   XN = X+'n'
 
-  NILS = /^nil,?$/
+  NILS   = /^nil,?$/
+  FALSES = /^false,?$/
+  TRUES  = /^true,?$/
 
   INTEGER = /^\d+,?$/
   FLOAT   = /^\d+\.\d+,?$/
@@ -107,6 +109,10 @@ class Load
     case line
     when NILS
       nil
+    when FALSES
+      false
+    when TRUES
+      true
     when INTEGER
       line.to_i
     when FLOAT
@@ -138,7 +144,7 @@ class Load
       @opened -= 1
       raise CloseHash
     else
-      raise RBON::Load::Error, "Unsupported Item: #{line}"
+      raise RBON::Load::Error, "Unsupported Item: '#{line}'"
     end
   end
 end

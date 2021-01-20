@@ -1,5 +1,4 @@
 #! ruby
-require 'stringio'
 require 'test/unit'
 
 require 'rbon'
@@ -122,6 +121,9 @@ class TestDump < Test::Unit::TestCase
         :Four
       ]
     THIS
+
+    assert_equal "false\n", RBON.dump(false)
+    assert_equal "true\n", RBON.dump(true)
   end
 
   def test_its_ruby

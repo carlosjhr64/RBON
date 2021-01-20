@@ -19,6 +19,7 @@ EOL
 Error
 Exception
 FalseClass
+FALSES
 Float
 FLOAT
 get_item
@@ -83,6 +84,7 @@ to_i
 to_sym
 traverse
 TrueClass
+TRUES
 TypeError
 unshift
 VERSION

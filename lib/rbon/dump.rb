@@ -33,7 +33,7 @@ class Dump
   def item(item, indent)
     case item
     when String
-      @io.print item.lines.map{_1.inspect}.join(" +\n"+indent)
+      @io.print (item=='')?  '""' : item.lines.map{_1.inspect}.join(" +\n"+indent)
     else
       @io.print item.inspect
     end

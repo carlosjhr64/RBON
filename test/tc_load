@@ -1,5 +1,4 @@
 #! ruby
-require 'stringio'
 require 'test/unit'
 
 require 'rbon'
@@ -39,5 +38,8 @@ class TestLoad < Test::Unit::TestCase
     assert_equal L, RBON.load(RBON.dump(L))
     assert_equal M, RBON.load(RBON.dump(M))
     assert_equal N, RBON.load(RBON.dump(N))
+
+    assert_equal false, RBON.load(RBON.dump(false))
+    assert_equal true,  RBON.load(RBON.dump(true))
   end
 end
