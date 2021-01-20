@@ -3,18 +3,17 @@ class Dump
   class Error < StandardError
   end
 
-  def initialize(newline:$/, tab:'  ')
-    @rs, @tab = newline, tab
-    @io = nil
+  def initialize(tab:'  ')
+    @tab, @io = tab, nil
   end
 
-  def pretty_generate(object, io:StringIO.new)
+  def dump(object, io:StringIO.new)
     @io = io
     traverse(object,'')
-    @io.print @rs
+    @io.print "\n"
     @io.respond_to?(:string)? @io.string : nil
   end
-  alias :dump :pretty_generate
+  alias :pretty_generate :dump
 
   private
 
@@ -34,7 +33,7 @@ class Dump
   def item(item, indent)
     case item
     when String
-      @io.print item.lines.map{_1.inspect}.join(' +'+@rs+indent)
+      @io.print item.lines.map{_1.inspect}.join(" +\n"+indent)
     else
       @io.print item.inspect
     end
@@ -44,13 +43,13 @@ class Dump
     if array.empty?
       @io.print '[]'
     else
-      @io.print '['+@rs+indent+@tab
+      @io.print "[\n"+indent+@tab
       traverse(array[0], indent+@tab)
       array[1..-1].each do |object|
-        @io.print ','+@rs+indent+@tab
+        @io.print ",\n"+indent+@tab
         traverse(object, indent+@tab)
       end
-      @io.print @rs+indent+']'
+      @io.print "\n"+indent+']'
     end
   end
 
@@ -58,14 +57,14 @@ class Dump
     if hash.empty?
       @io.print '{}'
     else
-      @io.print '{'+@rs+indent+@tab
+      @io.print "{\n"+indent+@tab
       array = hash.to_a
       key_object(*array[0], indent+@tab)
       array[1..-1].each do |key,object|
-        @io.print ','+@rs+indent+@tab
+        @io.print ",\n"+indent+@tab
         key_object(key,object, indent+@tab)
       end
-      @io.print @rs+indent+'}'
+      @io.print "\n"+indent+'}'
     end
   end
 

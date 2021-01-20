@@ -48,7 +48,6 @@ loop
 map
 match
 new
-newline
 NilClass
 NILS
 object
