@@ -1,0 +1,29 @@
+#! ruby
+require 'test/unit'
+require 'rbon'
+
+class TestToMinimal < Test::Unit::TestCase
+  def test_to_minimal
+    config0 = RBON.load File.read './test/config0.rbon'
+
+    # config1 removes indentation.
+    assert system 'ruby -c ./test/config1.rbon 1> /dev/null'
+    assert_equal config0, RBON.load(File.read './test/config1.rbon')
+
+    # config2 removes spaces after ':' in keys except prior to symbols.
+    assert system 'ruby -c ./test/config2.rbon 1> /dev/null'
+    assert_equal config0, RBON.load(File.read './test/config2.rbon')
+
+    # config3 removes spaces prior to '+' in string concatanation.
+    assert system 'ruby -c ./test/config3.rbon 2> /dev/null'
+    assert_equal config0, RBON.load(File.read './test/config3.rbon')
+
+    # config4 removes ',', NO LONGER VALID RUBY.
+    refute system 'ruby -c ./test/config4.rbon 2> /dev/null'
+    assert_equal config0, RBON.load(File.read './test/config4.rbon')
+
+    # config5 removes all spaces after ':' in keys, NOT VALID RUBY.
+    refute system 'ruby -c ./test/config5.rbon 2> /dev/null'
+    assert_equal config0, RBON.load(File.read './test/config2b.rbon')
+  end
+end
