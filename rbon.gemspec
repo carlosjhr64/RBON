@@ -1,14 +1,14 @@
 Gem::Specification.new do |s|
 
   s.name     = 'rbon'
-  s.version  = '0.0.210120'
+  s.version  = '0.1.210123'
 
   s.homepage = 'https://github.com/carlosjhr64/rbon'
 
   s.author   = 'carlosjhr64'
   s.email    = 'carlosjhr64@gmail.com'
 
-  s.date     = '2021-01-20'
+  s.date     = '2021-01-23'
   s.licenses = ['MIT']
 
   s.description = <<DESCRIPTION

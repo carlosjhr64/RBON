@@ -109,6 +109,7 @@ HISTORY_DIALOG:[]
 history_dialog:{
 set_window_position::center
 }
+#### Comments skipped ####
 history_dialog!:[
 :HISTORY_DIALOG
 :history_dialog

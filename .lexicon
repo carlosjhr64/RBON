@@ -61,12 +61,14 @@ push
 raise
 RBON
 readlines
+reject
 require
 respond_to
 Ruby30
 shift
 split
 StandardError
+start_with
 string
 String
 STRING

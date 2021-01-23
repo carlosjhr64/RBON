@@ -54,9 +54,9 @@ class Load
   def readlines
     case @io
     when String
-      @io = @io.lines.map(&:strip)
+      @io = @io.lines.map(&:strip).reject{_1.start_with? '#'}
     when IO
-      @io = @io.readlines.map(&:strip)
+      @io = @io.readlines.map(&:strip).reject{_1.start_with? '#'}
     else
       raise TypeError, "RBON#load: Need IO or String, got #{@io.class}."
     end

@@ -48,7 +48,9 @@
     ],
     do_history!: [
       :DO_HISTORY,
+      # Comment Comment Comment
       "activate"
+                # blah blah blah!
     ],
     DO_QRCODE: [
       {
@@ -76,6 +78,7 @@
     ],
     ask: {},
     ask!: [
+# Comments are skipped by load
       :ASK,
       :ask
     ],

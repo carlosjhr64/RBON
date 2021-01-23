@@ -111,6 +111,7 @@ set_window_position: :center
 },
 history_dialog!:[
 :HISTORY_DIALOG,
+   # S k i p  C o m m e n t #
 :history_dialog
 ],
 HISTORY_COMBO:[],

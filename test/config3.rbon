@@ -138,6 +138,7 @@ question_dialog!:[
 :question_dialog,
 :QUESTION_DIALOG
 ]
+### One, two, three... comments are skipped!
 },
 tasks:{
 mplayer:[
