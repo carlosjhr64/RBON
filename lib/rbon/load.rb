@@ -17,6 +17,7 @@ class Load
   XX = X+X
   XQ = X+'"'
   XN = X+'n'
+  XT = X+'t'
 
   NILS   = /^nil,?$/
   FALSES = /^false,?$/
@@ -89,7 +90,7 @@ class Load
   end
 
   def chomp(string)
-    string.chomp(',')[1..-2].gsub(XX,X).gsub(XQ,'"').gsub(XN,"\n")
+    string.chomp(',')[1..-2].gsub(XX,X).gsub(XQ,'"').gsub(XT,"\t").gsub(XN,"\n")
   end
 
   def get_strings
