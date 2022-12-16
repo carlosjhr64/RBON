@@ -1,6 +1,6 @@
 # RBON
 
-* [VERSION 0.2.210125](https://github.com/carlosjhr64/rbon/releases)
+* [VERSION 0.2.221216](https://github.com/carlosjhr64/rbon/releases)
 * [github](https://www.github.com/carlosjhr64/rbon)
 * [rubygems](https://rubygems.org/gems/rbon)
 
@@ -68,7 +68,7 @@ ITEMS == RBON.load(dump) #=> true
 
 ## LICENSE:
 
-Copyright 2021 CarlosJHR64
+Copyright 2022 CarlosJHR64
 
 Permission is hereby granted, free of charge,
 to any person obtaining a copy of this software and

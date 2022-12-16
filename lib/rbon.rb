@@ -1,6 +1,6 @@
 require 'stringio'
 module RBON
-  VERSION = '0.2.210125'
+  VERSION = '0.2.221216'
   require 'rbon/dump'
   require 'rbon/load'
 
