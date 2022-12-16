@@ -26,14 +26,16 @@ class Dump
     when Symbol, String, Integer, Float, NilClass, TrueClass, FalseClass
       item(object, indent)
     else
-      raise RBON::Dump::Error, "Unsupported class #{object.class}: #{object.inspect}"
+      raise RBON::Dump::Error,
+      "Unsupported class #{object.class}: #{object.inspect}"
     end
   end
 
   def item(item, indent)
     case item
     when String
-      @io.print (item=='')?  '""' : item.lines.map{_1.inspect}.join(" +\n"+indent)
+      @io.print (item=='')?
+        '""' : item.lines.map{_1.inspect}.join(" +\n"+indent)
     else
       @io.print item.inspect
     end
@@ -69,7 +71,9 @@ class Dump
   end
 
   def key_object(key, object, indent)
-    raise RBON::Dump::Error, "Bad Key #{key.class}: #{key.inspect}" unless key.is_a?(Symbol) and key.match?('^\w+[?!]?$')
+    unless key.is_a?(Symbol) and key.match?('^\w+[?!]?$')
+      raise RBON::Dump::Error, "Bad Key #{key.class}: #{key.inspect}"
+    end
     @io.print "#{key}: "
     traverse(object, indent)
   end
