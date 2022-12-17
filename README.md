@@ -1,6 +1,6 @@
 # RBON
 
-* [VERSION 0.2.221216](https://github.com/carlosjhr64/rbon/releases)
+* [VERSION 0.2.221217](https://github.com/carlosjhr64/rbon/releases)
 * [github](https://www.github.com/carlosjhr64/rbon)
 * [rubygems](https://rubygems.org/gems/rbon)
 

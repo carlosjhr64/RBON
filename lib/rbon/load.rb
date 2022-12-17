@@ -1,7 +1,5 @@
 module RBON
 class Load
-  class Bug < Exception
-  end
   class Error < StandardError
   end
 
@@ -74,10 +72,10 @@ class Load
       when Hash
         items[item[0]]=item[1]
       else
-        raise RBON::Load::Bug, "Unexpected Error"
+        raise RBON::Load::Error
       end
     end
-    return items
+    # Loop never breaks out... must be rescued below
   rescue CloseArray
     raise RBON::Load::Error unless items.is_a? Array
     return items
