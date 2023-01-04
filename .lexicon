@@ -63,7 +63,7 @@ readlines
 reject
 require
 respond_to
-Ruby31
+Ruby32
 shift
 split
 StandardError
